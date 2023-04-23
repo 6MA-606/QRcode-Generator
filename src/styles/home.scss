@@ -1,0 +1,78 @@
+.container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: ghostwhite;
+
+  > * {
+    transition: .5s;
+  }
+
+  .title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #333;
+    isolation: isolate;
+  }
+
+  .description {
+    color: #4e4e4e;
+    isolation: isolate;
+    margin-bottom: 2em;
+  }
+
+  .textInput-text, .colorInput-text {
+    isolation: isolate;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: .25rem .5rem;
+    transition: .5s;
+  }
+
+  .colorInput-color {
+    isolation: isolate;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: .25rem .5rem;
+    transition: .5s;
+  }
+
+  .submitBtn {
+    isolation: isolate;
+  }
+
+  .downloadBtn {
+    isolation: isolate;
+  }
+}
+
+.darkmode--activated {
+    
+  .title {
+    color: ghostwhite;
+  }
+  .description {
+    color: #acacac;
+  }
+
+  .textInput-text, .colorInput-text {
+    background: #3f3e44;
+    color: rgb(228, 228, 228);
+    border: 1px solid #626262;
+  }
+
+  .colorInput-color {
+    
+  }
+
+  .submitBtn {
+    
+  }
+
+  .downloadBtn {
+    color: aquamarine;
+  }
+}
