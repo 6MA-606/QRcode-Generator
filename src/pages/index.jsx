@@ -1,8 +1,9 @@
 import Head from "next/head";
 import { useState } from "react";
-import { ColorInput, TextInput } from "@/components/Input/Input";
+import { ColorInput, TextBox, TextInput } from "@/components/Input/Input";
 import $ from "jquery";
 import Darkmode from "darkmode-js";
+import convert from "color-convert";
 
 export default function Home() {
   const options = {
@@ -12,7 +13,7 @@ export default function Home() {
     time: '0.5s', // default: '0.3s'
     mixColor: '#ccc', // default: '#fff'
     backgroundColor: '#fff',  // default: '#fff'
-    buttonColorDark: '#100f2c',  // default: '#100f2c'
+    buttonColorDark: '#2c2c33',  // default: '#100f2c'
     buttonColorLight: '#fff', // default: '#fff'
     saveInCookies: false, // default: true,
     label: '🌓', // default: ''
@@ -21,17 +22,11 @@ export default function Home() {
   const darkmode = new Darkmode(options);
   darkmode.showWidget();
   // darkmode.toggle();
-  const [imgUrl, setImgUrl] = useState("./img/default/qr-placeholder.png");
-  const [downloadUrl, setDownloadUrl] = useState("./img/default/qr-placeholder.png");
-
-  const hexToDecimal = hex => parseInt(hex, 16);
+  const [imgUrl, setImgUrl] = useState("/img/default/qr-placeholder.png");
+  const [downloadUrl, setDownloadUrl] = useState("#");
 
   const hexToRGB = hex => {
-    let red, green, blue;
-
-    red = hexToDecimal(hex[1] + "" + hex[2]);
-    green = hexToDecimal(hex[3] + "" + hex[4]);
-    blue = hexToDecimal(hex[5] + "" + hex[6]);
+    let [ red, green, blue ] = convert.hex.rgb(hex.split("#")[1]);
     return red + "-" + green + "-" + blue;
   }
 
@@ -46,12 +41,12 @@ export default function Home() {
     };
 
     let parameters;
-
     let input = $("#qr-input");
     let colorInput = $(".qr-color");
     let bgcolorInput = $(".qr-bgcolor");
     let button = $("#qr-submit");
     let download = $("#qr-download");
+    let qrImage = $("#qr-image");
 
     parametersJson.data = input.val() || "";
 
@@ -65,11 +60,13 @@ export default function Home() {
       setDownloadUrl(
         `https://api.qrserver.com/v1/create-qr-code/?${parameters}&download=1`
       );
+      qrImage.show();
       setImgUrl(`https://api.qrserver.com/v1/create-qr-code/?${parameters}`);
     } else {
       button.text("Generate");
+      setDownloadUrl("#");
       download.hide();
-      setImgUrl("./img/default/qr-placeholder.png");
+      setImgUrl("/img/default/qr-placeholder.png");
     }
   }
 
@@ -86,37 +83,38 @@ export default function Home() {
         <div className="description">
           By ZYXMA
         </div>
-        <TextInput id="qr-input" placeholder="Link or text here" />
+        <img
+          id="qr-image"
+          src={imgUrl}
+          alt="QRcode must generate here."
+          // style={{ display: "none" }}
+          className="qr-image"
+          onClick={() => {window.open(downloadUrl, "_self")}}
+        />
+        <TextBox
+          id="qr-input"
+          placeholder="Link or text here"
+        />
         <ColorInput
-          label="Color: "
+          label="Color"
           className="qr-color"
           id="qr-color"
           base="#000000"
         />
         <ColorInput
-          label="Background Color: "
+          label="Background Color"
           className="qr-bgcolor"
           id="qr-bgcolor"
           base="#ffffff"
         />
-        <button className="submitBtn" id="qr-submit" onClick={qrRequest}>
-          Generate
-        </button>
-        <a
-          href={downloadUrl}
-          target="_blank"
-          rel="noreferrer"
-          id="qr-download"
-          className="downloadBtn"
-          style={{ display: "none" }}
-        >
-          <em className="fa fa-download"></em> Download
-        </a>
-        <img
-          id="qr-image"
-          src={imgUrl}
-          alt="QRcode must generate here."
-        />
+        <div className="bthGroup">
+          <button className="submitBtn" id="qr-submit" onClick={qrRequest}>
+            Generate
+          </button>
+          <button className="downloadBtn" id="qr-download" onClick={() => {window.open(downloadUrl, "_self")}} style={{ display: "none" }}>
+            Download
+          </button>
+        </div>
       </main>
     </>
   );
