@@ -35,6 +35,15 @@ body {
     color: #4e4e4e;
     isolation: isolate;
     margin-bottom: 2em;
+
+    a {
+      color: #4e4e4e;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
   }
 
   .textBox-text  {
@@ -133,6 +142,15 @@ body {
   }
   .description {
     color: #acacac;
+    
+    a {
+      color: #acacac;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
   }
 
   .textBox-text {
