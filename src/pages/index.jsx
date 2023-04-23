@@ -54,7 +54,7 @@ export default function Home() {
       if (color === "") {
         color = "#000000";
       } else if (color[0] !== "#") {
-        color = "#" + convert.keyword.hex(color);
+        color = "#" + convert.keyword.hex(color.toLowerCase());
       } else if (color.length === 4) {
         color = "#" + color[1] + color[1] + color[2] + color[2] + color[3] + color[3];
       } else if (color.length === 7) {
@@ -64,6 +64,7 @@ export default function Home() {
       }
       return hexToRGB(color);
     }
+
     parametersJson.qrColor = convertColor(colorInput.val());
     parametersJson.backgroundColor = convertColor(bgcolorInput.val());
 
