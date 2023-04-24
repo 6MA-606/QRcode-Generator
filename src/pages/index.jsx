@@ -24,6 +24,12 @@ export default function Home() {
 
   const darkmode = new Darkmode(options);
 
+  // useEffect(() => {
+  //   if (localStorage.getItem("darkmode") == "true") {
+  //     darkmode.toggle();
+  //   }
+  // }, []);
+
   const [imgUrl, setImgUrl] = useState("/img/default/qr-placeholder.png");
   const [downloadUrl, setDownloadUrl] = useState("#");
 

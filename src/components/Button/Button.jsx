@@ -24,8 +24,10 @@ export const DarkmodeButton = (props) => {
         darkmode.toggle()
         if (darkmode.isActivated()) {
             setIcon(<SunFill size={30} color="ghostwhite" />)
+            localStorage.setItem("darkmode", true)
         } else {
             setIcon(<MoonFill size={30} />)
+            localStorage.setItem("darkmode", true)
         }
     }
 
