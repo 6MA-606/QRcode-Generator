@@ -1,0 +1,15 @@
+.btn {
+    position: fixed;
+    top: 0;
+    right: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0);
+    width: 5em;
+    height: 5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #555;
+    div {
+        transform: translate(50%, -50%);
+    }
+}

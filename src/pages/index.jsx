@@ -1,27 +1,29 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ColorInput, TextBox, TextInput } from "@/components/Input/Input";
 import $ from "jquery";
 import Darkmode from "darkmode-js";
 import convert from "color-convert";
+import { CornerButton, DarkmodeButton } from "@/components/Button/Button";
 
 export default function Home() {
+
   const options = {
-    bottom: '32px', // default: '32px'
-    right: 'unset', // default: '32px'
-    left: '32px', // default: 'unset'
+    //bottom: '32px', // default: '32px'
+    //right: 'unset', // default: '32px'
+    //left: '32px', // default: 'unset'
     time: '0.5s', // default: '0.3s'
-    mixColor: '#ccc', // default: '#fff'
-    backgroundColor: '#fff',  // default: '#fff'
-    buttonColorDark: '#2c2c33',  // default: '#100f2c'
-    buttonColorLight: '#fff', // default: '#fff'
+    //mixColor: '#ccc', // default: '#fff'
+    //backgroundColor: '#fff',  // default: '#fff'
+    //buttonColorDark: '#2c2c33',  // default: '#100f2c'
+    //buttonColorLight: '#fff', // default: '#fff'
     saveInCookies: false, // default: true,
-    label: '🌓', // default: ''
+    //label: '🌓', // default: ''
     autoMatchOsTheme: true // default: true
   }
+
   const darkmode = new Darkmode(options);
-  darkmode.showWidget();
-  // darkmode.toggle();
+
   const [imgUrl, setImgUrl] = useState("/img/default/qr-placeholder.png");
   const [downloadUrl, setDownloadUrl] = useState("#");
 
@@ -94,9 +96,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container">
+        <DarkmodeButton darkmode={darkmode} />
+        <CornerButton />
         <div className="title">QR-Code Generator</div>
         <div className="description">
-          By <a href="https://github.com/6MA-606" target="_blank">ZYXMA</a>
+          Version 1.0.2 By <a href="https://github.com/6MA-606" target="_blank">ZYXMA</a>
         </div>
         <img
           id="qr-image"
