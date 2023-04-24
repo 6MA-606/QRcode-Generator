@@ -5,31 +5,18 @@ import $ from "jquery";
 import Darkmode from "darkmode-js";
 import convert from "color-convert";
 import { CornerButton, DarkmodeButton } from "@/components/Button/Button";
+import { Helmet } from "react-helmet";
+import { Github } from "react-bootstrap-icons";
 
 export default function Home() {
 
   const options = {
-    //bottom: '32px', // default: '32px'
-    //right: 'unset', // default: '32px'
-    //left: '32px', // default: 'unset'
-    time: '0.5s', // default: '0.3s'
-    //mixColor: '#ccc', // default: '#fff'
-    //backgroundColor: '#fff',  // default: '#fff'
-    //buttonColorDark: '#2c2c33',  // default: '#100f2c'
-    //buttonColorLight: '#fff', // default: '#fff'
-    saveInCookies: false, // default: true,
-    //label: '🌓', // default: ''
     autoMatchOsTheme: true // default: true
   }
 
   const darkmode = new Darkmode(options);
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("darkmode") == "true") {
-  //     darkmode.toggle();
-  //   }
-  // }, []);
-
+  const [darkmodeIsActivated, setDarkmodeIsActivated] = useState("false");
   const [imgUrl, setImgUrl] = useState("/img/default/qr-placeholder.png");
   const [downloadUrl, setDownloadUrl] = useState("#");
 
@@ -93,26 +80,33 @@ export default function Home() {
     }
   }
 
+  useEffect(() => {
+    setDarkmodeIsActivated(localStorage.getItem("darkmode"));
+  }, [])
+
   return (
     <>
-      <Head>
+      <Helmet>
         <title>QR-Code Generator</title>
         <meta name="description" content="จริง ๆ คือทำมาทดสอบ darkmode 555555" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-      </Head>
+        <body className={ darkmodeIsActivated == "true" ? 'darkmode--activated' : ''} />
+      </Helmet>
       <main className="container">
-        <DarkmodeButton darkmode={darkmode} />
-        <CornerButton />
+        <DarkmodeButton
+          darkmode={darkmode}
+          isActivated={darkmodeIsActivated}
+        />
+        <CornerButton icon={<Github size={30} color="lightgray" />} url="https://github.com/6MA-606/goqr-QRcode-Generator" />
         <div className="title">QR-Code Generator</div>
         <div className="description">
-          Version 1.0.2 By <a href="https://github.com/6MA-606" target="_blank">ZYXMA</a>
+          Version 1.0.2.1 By <a href="https://github.com/6MA-606" target="_blank">ZYXMA</a>
         </div>
         <img
           id="qr-image"
           src={imgUrl}
           alt="QRcode must generate here."
-          // style={{ display: "none" }}
           className="qr-image"
           onClick={() => {window.open(downloadUrl, "_self")}}
         />

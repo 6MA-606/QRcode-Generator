@@ -11,5 +11,12 @@
     background-color: #555;
     div {
         transform: translate(50%, -50%);
+        cursor: pointer;
+    }
+    div:hover {
+        transform: translate(50%, -50%) scale(1.1);
+    }
+    div:active {
+        transform: translate(50%, -50%) scale(0.9);
     }
 }
