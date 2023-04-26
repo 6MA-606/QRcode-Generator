@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { useEffect, useState } from "react";
 import { ColorInput, TextBox, TextInput } from "@/components/Input/Input";
 import $ from "jquery";
@@ -7,18 +6,30 @@ import convert from "color-convert";
 import { CornerButton, DarkmodeButton } from "@/components/Button/Button";
 import { Helmet } from "react-helmet";
 import { Github } from "react-bootstrap-icons";
+import QrCodeBox from "@/components/QrCodeBox/QrCodeBox";
 
 export default function Home() {
 
-  const options = {
-    autoMatchOsTheme: true // default: true
-  }
-
-  const darkmode = new Darkmode(options);
-
-  const [darkmodeIsActivated, setDarkmodeIsActivated] = useState("false");
-  const [imgUrl, setImgUrl] = useState("/img/default/qr-placeholder.png");
+  const [darkmode, setDarkmode] = useState(null);
+  const [darkmodeIsActivated, setDarkmodeIsActivated] = useState(false);
+  const [imgUrl, setImgUrl] = useState(null);
   const [downloadUrl, setDownloadUrl] = useState("#");
+  const [disabledDownload, setDisabledDownload] = useState(true);
+
+  useEffect(() => {
+    let darkmodeState = localStorage.getItem("darkmode");
+    setDarkmodeIsActivated(darkmodeState === "true");
+    console.log("darkmodeIsActivated: " + darkmodeIsActivated + " " + darkmodeState);
+    setDarkmode(new Darkmode({autoMatchOsTheme: true}));
+  }, [])
+
+  useEffect(() => {
+    setImgUrl(null);
+  }, [darkmodeIsActivated])
+
+  const handleDarkmodeChange = (newState) => {
+    setDarkmodeIsActivated(newState);
+  }
 
   const hexToRGB = hex => {
     let [ red, green, blue ] = convert.hex.rgb(hex.split("#")[1]);
@@ -70,19 +81,15 @@ export default function Home() {
       setDownloadUrl(
         `https://api.qrserver.com/v1/create-qr-code/?${parameters}&download=1`
       );
-      qrImage.show();
+      setDisabledDownload(false);
       setImgUrl(`https://api.qrserver.com/v1/create-qr-code/?${parameters}`);
     } else {
       button.text("Generate");
-      setDownloadUrl("#");
       download.hide();
-      setImgUrl("/img/default/qr-placeholder.png");
+      setPlaceholder();
+      setDisabledDownload(true);
     }
   }
-
-  useEffect(() => {
-    setDarkmodeIsActivated(localStorage.getItem("darkmode"));
-  }, [])
 
   return (
     <>
@@ -91,24 +98,30 @@ export default function Home() {
         <meta name="description" content="จริง ๆ คือทำมาทดสอบ darkmode 555555" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        <body className={ darkmodeIsActivated == "true" ? 'darkmode--activated' : ''} />
+        <body className={ darkmodeIsActivated == true ? 'darkmode--activated' : ''} />
       </Helmet>
       <main className="container">
         <DarkmodeButton
           darkmode={darkmode}
           isActivated={darkmodeIsActivated}
+          handleDarkmodeChange={handleDarkmodeChange}
         />
         <CornerButton icon={<Github size={30} color="lightgray" />} url="https://github.com/6MA-606/goqr-QRcode-Generator" />
         <div className="title">QR-Code Generator</div>
         <div className="description">
-          Version 1.0.2.1 By <a href="https://github.com/6MA-606" target="_blank">ZYXMA</a>
+          Version 1.0.3 By <a href="https://github.com/6MA-606" target="_blank">ZYXMA</a>
         </div>
-        <img
+        {/* <img
           id="qr-image"
           src={imgUrl}
-          alt="QRcode must generate here."
+          alt="QRcode"
           className="qr-image"
           onClick={() => {window.open(downloadUrl, "_self")}}
+        /> */}
+        <QrCodeBox
+          url={imgUrl}
+          disabled={disabledDownload}
+          darkmodeIsActivated={darkmodeIsActivated}
         />
         <TextBox
           id="qr-input"

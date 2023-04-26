@@ -16,7 +16,7 @@ export const CornerButton = (props) => {
 };
 
 export const DarkmodeButton = (props) => {
-  const { darkmode, isActivated } = props;
+  const { darkmode, isActivated, handleDarkmodeChange } = props;
 
   const [icon, setIcon] = useState(<MoonFill size={30} />);
 
@@ -27,16 +27,18 @@ export const DarkmodeButton = (props) => {
     });
     darkmode.toggle();
     if (darkmode.isActivated()) {
+      handleDarkmodeChange(true);
       setIcon(<SunFill size={30} color="ghostwhite" />);
       localStorage.setItem("darkmode", "true");
     } else {
+      handleDarkmodeChange(false);
       setIcon(<MoonFill size={30} />);
       localStorage.setItem("darkmode", "false");
     }
   };
 
   useEffect(() => {
-    if (isActivated == "true") {
+    if (isActivated) {
       setIcon(<SunFill size={30} color="ghostwhite" />);
     } else {
       setIcon(<MoonFill size={30} />);
