@@ -2,7 +2,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  // transition: .35s;
+  //transition: .35s;
 }
 
 html,
@@ -23,11 +23,6 @@ body {
   min-height: 100vh;
   background: ghostwhite;
   isolation: isolate;
-  // transition: .35s;
-
-  // * {
-  //   transition: .35s;
-  // }
 
   .title {
     font-size: 2.2rem;

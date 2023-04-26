@@ -12,6 +12,7 @@
     div {
         transform: translate(50%, -50%);
         cursor: pointer;
+        transition: .35s;
     }
     div:hover {
         transform: translate(50%, -50%) scale(1.1);

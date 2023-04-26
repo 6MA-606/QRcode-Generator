@@ -86,7 +86,7 @@ export default function Home() {
     } else {
       button.text("Generate");
       download.hide();
-      setPlaceholder();
+      setImgUrl(null);
       setDisabledDownload(true);
     }
   }
@@ -109,7 +109,7 @@ export default function Home() {
         <CornerButton icon={<Github size={30} color="lightgray" />} url="https://github.com/6MA-606/goqr-QRcode-Generator" />
         <div className="title">QR-Code Generator</div>
         <div className="description">
-          Version 1.0.3 By <a href="https://github.com/6MA-606" target="_blank">ZYXMA</a>
+          Version 1.0.3.1 By <a href="https://github.com/6MA-606" target="_blank">ZYXMA</a>
         </div>
         {/* <img
           id="qr-image"

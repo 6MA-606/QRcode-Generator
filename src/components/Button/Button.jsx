@@ -23,7 +23,7 @@ export const DarkmodeButton = (props) => {
   const toggleMode = () => {
     const allElement = document.querySelectorAll("*");
     allElement.forEach((element) => {
-      element.style.transition = "all 0.5s ease";
+      element.style.transition = "all .35s ease";
     });
     darkmode.toggle();
     if (darkmode.isActivated()) {
