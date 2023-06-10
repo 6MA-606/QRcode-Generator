@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { ColorInput, TextBox, TextInput } from "@/components/Input/Input";
+import { ColorInput, TextBox } from "@/components/Input";
 import $ from "jquery";
 import Darkmode from "darkmode-js";
 import convert from "color-convert";
-import { CornerButton, DarkmodeButton } from "@/components/Button/Button";
+import { CornerButton, DarkmodeButton } from "@/components/Button";
 import { Helmet } from "react-helmet";
 import { Github } from "react-bootstrap-icons";
-import QrCodeBox from "@/components/QrCodeBox/QrCodeBox";
+import QrCodeBox from "@/components/QrCodeBox";
 
 export default function Home() {
 
@@ -100,24 +100,30 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
         <body className={ darkmodeIsActivated == true ? 'darkmode--activated' : ''} />
       </Helmet>
-      <main className="container">
+      <main className="zyxma__container w-screen h-screen font-sans text-base flex flex-col justify-center items-center min-h-full isolate">
         <DarkmodeButton
           darkmode={darkmode}
           isActivated={darkmodeIsActivated}
           handleDarkmodeChange={handleDarkmodeChange}
         />
-        <CornerButton icon={<Github size={30} color="lightgray" />} url="https://github.com/6MA-606/goqr-QRcode-Generator" />
-        <div className="title">QR-Code Generator</div>
-        <div className="description">
-          Version 1.0.3.1 By <a href="https://github.com/6MA-606" target="_blank">ZYXMA</a>
+        <CornerButton
+            icon={<Github size={30} color="lightgray" />}
+            url={"https://github.com/6MA-606/goqr-QRcode-Generator"}
+            bg={"#555"}
+          />
+        <div className="title my-1 text-4xl font-semibold isolate">
+          QR-Code Generator
         </div>
-        {/* <img
-          id="qr-image"
-          src={imgUrl}
-          alt="QRcode"
-          className="qr-image"
-          onClick={() => {window.open(downloadUrl, "_self")}}
-        /> */}
+        <div className="description isolate mb-6">
+          Version 1.0.4 By&nbsp;
+          <a
+            className="no-underline hover:underline" 
+            href="https://github.com/6MA-606" 
+            target="_blank"
+          >
+            ZYXMA
+          </a>
+        </div>
         <QrCodeBox
           url={imgUrl}
           disabled={disabledDownload}
@@ -139,11 +145,11 @@ export default function Home() {
           id="qr-bgcolor"
           base="#ffffff"
         />
-        <div className="bthGroup">
-          <button className="submitBtn" id="qr-submit" onClick={qrRequest}>
+        <div className="flex my-2">
+          <button className="submitBtn px-4 py-2 mx-1 rounded-lg text-base font-semibold bg-orange-400 hover:bg-orange-500 text-white cursor-pointer no-underline transition isolate" id="qr-submit" onClick={qrRequest}>
             Generate
           </button>
-          <button className="downloadBtn" id="qr-download" onClick={() => {window.open(downloadUrl, "_self")}} style={{ display: "none" }}>
+          <button className="downloadBtn px-4 py-2 mx-1 rounded-lg text-base font-semibold bg-gray-500 hover:bg-gray-600 text-white cursor-pointer no-underline transition isolate" id="qr-download" onClick={() => {window.open(downloadUrl, "_self")}} style={{ display: "none" }}>
             Download
           </button>
         </div>

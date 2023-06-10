@@ -32,7 +32,7 @@ export default function QrCodeBox(props) {
           id="qr-image"
           src={qrCode}
           alt="QRcode"
-          className="qr-image"
+          className="qr-image mb-6 w-64 h-64 filter drop-shadow-xl"
           onClick={handleClick}
           key={qrCode}
         />

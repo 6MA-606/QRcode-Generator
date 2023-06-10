@@ -1,14 +1,21 @@
 import { MoonFill, SunFill } from "react-bootstrap-icons";
-import corner from "./_cornerButton.module.scss";
-import dm_styles from "./_darkmodeButton.module.scss";
 import { useEffect, useState } from "react";
 
 export const CornerButton = (props) => {
-  const { icon, url } = props;
+  const { icon, url, bg } = props;
 
   return (
-    <div className={corner.btn}>
-      <div onClick={() => { window.open(url, "_blank") }}>
+    <div
+      className="fixed top-0 right-0 w-20 h-20 flex justify-center items-center"
+      style={{
+        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 0)",
+        background: bg,
+      }}
+    >
+      <div
+        className="translate-x-1/2 -translate-y-1/2 cursor-pointer transition hover:scale-110 active:scale-100"
+        onClick={() => { window.open(url, "_blank") }}
+      >
         {icon}
       </div>
     </div>
@@ -46,7 +53,7 @@ export const DarkmodeButton = (props) => {
   }, [isActivated]);
 
   return (
-    <div onClick={toggleMode} className={dm_styles.btn}>
+    <div onClick={toggleMode} className="cursor-pointer">
       {icon}
     </div>
   );
