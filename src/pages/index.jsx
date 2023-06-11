@@ -6,9 +6,9 @@ import { Button, CornerButton, DarkmodeButton } from "@/components/Button";
 import { Github } from "react-bootstrap-icons";
 import QrCodeBox from "@/components/QrCodeBox";
 import Head from "next/head";
-import { version } from "package.json"
 
 export default function Home() {
+  const version = "1.0.4.2";
   const [isDarkmode, setIsDarkmode] = useState(false);
   const [imgUrl, setImgUrl] = useState(null);
   const [downloadUrl, setDownloadUrl] = useState("#");
@@ -47,7 +47,6 @@ export default function Home() {
     let bgcolorValue = $("#qr-bgcolorInput");
     let button = $("#qr-submit");
     let download = $("#qr-download");
-    let qrImage = $("#qr-image");
 
     parametersJson.data = input.val() || "";
 
