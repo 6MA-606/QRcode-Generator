@@ -8,7 +8,7 @@ import QrCodeBox from "@/components/QrCodeBox";
 import Head from "next/head";
 
 export default function Home() {
-  const version = "1.0.4.3";
+  const version = "1.0.4.4";
   const [isDarkmode, setIsDarkmode] = useState(false);
   const [imgUrl, setImgUrl] = useState(null);
   const [downloadUrl, setDownloadUrl] = useState("#");
@@ -93,6 +93,7 @@ export default function Home() {
           name="description"
           content="จริง ๆ คือทำมาทดสอบ darkmode 555555"
         />
+        <meta name="google-site-verification" content="fTpcRTgchLEorR5mVUoQp8NUGiwU5Gl5Zm11Fu39ZmA" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1"
