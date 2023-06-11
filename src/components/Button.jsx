@@ -38,7 +38,7 @@ export const CornerButton = (props) => {
 };
 
 export const DarkmodeButton = (props) => {
-  const {setState} = props;
+  const {state, setState} = props;
 
   const [icon, setIcon] = useState(<MoonFill size={30} />);
 
@@ -57,12 +57,12 @@ export const DarkmodeButton = (props) => {
   };
 
   useEffect(() => {
-    if (document.documentElement.classList.contains("dark")) {
+    if (state) {
       setIcon(<SunFill size={30} color="ghostwhite" />);
     } else {
       setIcon(<MoonFill size={30} />);
     }
-  }, []);
+  }, [state]);
 
   return (
     <div onClick={toggleMode} className="cursor-pointer">

@@ -6,6 +6,7 @@ import { Button, CornerButton, DarkmodeButton } from "@/components/Button";
 import { Github } from "react-bootstrap-icons";
 import QrCodeBox from "@/components/QrCodeBox";
 import Head from "next/head";
+import { version } from "package.json"
 
 export default function Home() {
   const [isDarkmode, setIsDarkmode] = useState(false);
@@ -42,8 +43,8 @@ export default function Home() {
 
     let parameters;
     let input = $("#qr-input");
-    let colorValue = $("#qr-colorPicker");
-    let bgcolorValue = $("#qr-bgcolorPicker");
+    let colorValue = $("#qr-colorInput");
+    let bgcolorValue = $("#qr-bgcolorInput");
     let button = $("#qr-submit");
     let download = $("#qr-download");
     let qrImage = $("#qr-image");
@@ -103,7 +104,10 @@ export default function Home() {
         />
       </Head>
       <main className="flex flex-col items-center justify-center w-screen h-screen min-h-full font-sans text-base transition-colors zyxma__container isolate bg-neutral-50 dark:bg-neutral-800 ">
-        <DarkmodeButton setState={setIsDarkmode} />
+        <DarkmodeButton
+          state={isDarkmode}
+          setState={setIsDarkmode}
+        />
         <CornerButton
           icon={<Github size={30} color="lightgray" />}
           url={"https://github.com/6MA-606/goqr-QRcode-Generator"}
@@ -113,7 +117,7 @@ export default function Home() {
           QR-Code Generator
         </div>
         <div className="mb-6 transition-colors description isolate text-neutral-600 dark:text-neutral-400">
-          Version 1.0.4.1 By&nbsp;
+          Version {version} By&nbsp;
           <a
             className="no-underline hover:underline"
             href="https://github.com/6MA-606"
