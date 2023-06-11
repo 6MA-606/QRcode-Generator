@@ -1,40 +1,34 @@
 import { useEffect, useState } from "react";
 import { ColorInput, TextBox } from "@/components/Input";
 import $ from "jquery";
-import Darkmode from "darkmode-js";
 import convert from "color-convert";
-import { CornerButton, DarkmodeButton } from "@/components/Button";
-import { Helmet } from "react-helmet";
+import { Button, CornerButton, DarkmodeButton } from "@/components/Button";
 import { Github } from "react-bootstrap-icons";
 import QrCodeBox from "@/components/QrCodeBox";
+import Head from "next/head";
 
 export default function Home() {
-
-  const [darkmode, setDarkmode] = useState(null);
-  const [darkmodeIsActivated, setDarkmodeIsActivated] = useState(false);
+  const [isDarkmode, setIsDarkmode] = useState(false);
   const [imgUrl, setImgUrl] = useState(null);
   const [downloadUrl, setDownloadUrl] = useState("#");
   const [disabledDownload, setDisabledDownload] = useState(true);
 
   useEffect(() => {
-    let darkmodeState = localStorage.getItem("darkmode");
-    setDarkmodeIsActivated(darkmodeState === "true");
-    console.log("darkmodeIsActivated: " + darkmodeIsActivated + " " + darkmodeState);
-    setDarkmode(new Darkmode({autoMatchOsTheme: true}));
-  }, [])
-
-  useEffect(() => {
+    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+    if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      document.documentElement.classList.add("dark");
+      setIsDarkmode(true);
+    } else {
+      document.documentElement.classList.remove("dark");
+      setIsDarkmode(false);
+    }
     setImgUrl(null);
-  }, [darkmodeIsActivated])
+  }, []);
 
-  const handleDarkmodeChange = (newState) => {
-    setDarkmodeIsActivated(newState);
-  }
-
-  const hexToRGB = hex => {
-    let [ red, green, blue ] = convert.hex.rgb(hex.split("#")[1]);
+  const hexToRGB = (hex) => {
+    let [red, green, blue] = convert.hex.rgb(hex.split("#")[1]);
     return red + "-" + green + "-" + blue;
-  }
+  };
 
   const qrRequest = () => {
     let parametersJson = {
@@ -48,15 +42,15 @@ export default function Home() {
 
     let parameters;
     let input = $("#qr-input");
-    let colorInput = $(".qr-color");
-    let bgcolorInput = $(".qr-bgcolor");
+    let colorValue = $("#qr-colorPicker");
+    let bgcolorValue = $("#qr-bgcolorPicker");
     let button = $("#qr-submit");
     let download = $("#qr-download");
     let qrImage = $("#qr-image");
 
     parametersJson.data = input.val() || "";
 
-    const convertColor = color => {
+    const convertColor = (color) => {
       if (color === "") {
         color = "#000000";
       } else if (color[0] !== "#") {
@@ -69,10 +63,10 @@ export default function Home() {
         color = "#000000";
       }
       return hexToRGB(color);
-    }
+    };
 
-    parametersJson.qrColor = convertColor(colorInput.val());
-    parametersJson.backgroundColor = convertColor(bgcolorInput.val());
+    parametersJson.qrColor = convertColor(colorValue.val());
+    parametersJson.backgroundColor = convertColor(bgcolorValue.val());
 
     if (parametersJson.data !== "") {
       parameters = `size=${parametersJson.size}&bgcolor=${parametersJson.backgroundColor}&color=${parametersJson.qrColor}&qzone=${parametersJson.padding}&data=${parametersJson.data}`; // Stitch Together all Paramenters
@@ -89,69 +83,80 @@ export default function Home() {
       setImgUrl(null);
       setDisabledDownload(true);
     }
-  }
+  };
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>QR-Code Generator</title>
-        <meta name="description" content="จริง ๆ คือทำมาทดสอบ darkmode 555555" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-        <body className={ darkmodeIsActivated == true ? 'darkmode--activated' : ''} />
-      </Helmet>
-      <main className="zyxma__container w-screen h-screen font-sans text-base flex flex-col justify-center items-center min-h-full isolate">
-        <DarkmodeButton
-          darkmode={darkmode}
-          isActivated={darkmodeIsActivated}
-          handleDarkmodeChange={handleDarkmodeChange}
+        <meta
+          name="description"
+          content="จริง ๆ คือทำมาทดสอบ darkmode 555555"
         />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
+        <link
+          rel="icon"
+          href="/favicon.ico"
+        />
+      </Head>
+      <main className="flex flex-col items-center justify-center w-screen h-screen min-h-full font-sans text-base transition-colors zyxma__container isolate bg-neutral-50 dark:bg-neutral-800 ">
+        <DarkmodeButton setState={setIsDarkmode} />
         <CornerButton
-            icon={<Github size={30} color="lightgray" />}
-            url={"https://github.com/6MA-606/goqr-QRcode-Generator"}
-            bg={"#555"}
-          />
-        <div className="title my-1 text-4xl font-semibold isolate">
+          icon={<Github size={30} color="lightgray" />}
+          url={"https://github.com/6MA-606/goqr-QRcode-Generator"}
+          bg={"#555"}
+        />
+        <div className="my-1 text-4xl font-semibold transition-colors title isolate text-neutral-800 dark:text-neutral-50">
           QR-Code Generator
         </div>
-        <div className="description isolate mb-6">
-          Version 1.0.4 By&nbsp;
+        <div className="mb-6 transition-colors description isolate text-neutral-600 dark:text-neutral-400">
+          Version 1.0.4.1 By&nbsp;
           <a
-            className="no-underline hover:underline" 
-            href="https://github.com/6MA-606" 
+            className="no-underline hover:underline"
+            href="https://github.com/6MA-606"
             target="_blank"
           >
             ZYXMA
           </a>
         </div>
         <QrCodeBox
-          url={imgUrl}
+          url={imgUrl} 
           disabled={disabledDownload}
-          darkmodeIsActivated={darkmodeIsActivated}
+          isDarkmode={isDarkmode}
         />
         <TextBox
           id="qr-input"
-          placeholder="Link or text here"
+          placeholder="Link or text here" 
         />
         <ColorInput
           label="Color"
-          className="qr-color"
           id="qr-color"
           base="#000000"
         />
         <ColorInput
           label="Background Color"
-          className="qr-bgcolor"
           id="qr-bgcolor"
           base="#ffffff"
         />
         <div className="flex my-2">
-          <button className="submitBtn px-4 py-2 mx-1 rounded-lg text-base font-semibold bg-orange-400 hover:bg-orange-500 text-white cursor-pointer no-underline transition isolate" id="qr-submit" onClick={qrRequest}>
-            Generate
-          </button>
-          <button className="downloadBtn px-4 py-2 mx-1 rounded-lg text-base font-semibold bg-gray-500 hover:bg-gray-600 text-white cursor-pointer no-underline transition isolate" id="qr-download" onClick={() => {window.open(downloadUrl, "_self")}} style={{ display: "none" }}>
-            Download
-          </button>
+          <Button
+            label="Generate"
+            id="qr-submit"
+            className="bg-orange-400 hover:bg-orange-500"
+            onClick={qrRequest}
+          />
+          <Button
+            label="Download"
+            id="qr-download"
+            className="bg-gray-500 hover:bg-gray-600"
+            onClick={() => {
+              window.open(downloadUrl, "_self");
+            }}
+            style={{ display: "none" }}
+          />
         </div>
       </main>
     </>

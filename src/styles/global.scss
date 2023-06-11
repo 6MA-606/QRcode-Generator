@@ -18,20 +18,6 @@ body {
 }
 
 .zyxma__container {
-  background: ghostwhite;
-
-  .title {
-    color: #333;
-  }
-
-  .description {
-    color: #4e4e4e;
-
-    a {
-      color: #4e4e4e;
-    }
-  }
-
   .textBox-text::-webkit-scrollbar  {
     width: 0.5em;
   }
@@ -43,44 +29,6 @@ body {
   .textBox-text::-webkit-scrollbar-thumb  {
     background: rgb(203, 213, 225);
     border-radius: 5px;
-  }
-}
-
-.darkmode--activated {
-
-  .zyxma__container {
-    background: #262529;
-  }
-
-  .title {
-    color: ghostwhite;
-  }
-  .description {
-    color: #acacac;
-
-    a {
-      color: #acacac;
-    }
-  }
-
-  .textBox-text {
-    background: #3f3e44;
-    color: #e4e4e4;
-    border: 1px solid #626262;
-  }
-
-  .colorInput-text {
-    background: #3f3e44;
-    color: #e4e4e4;
-    border: 1px solid #626262;
-  }
-
-  .colorInput-label {
-    color: #e4e4e4;
-  }
-
-  .colorInput-color {
-    border: 1px solid #626262;
   }
 }
 
