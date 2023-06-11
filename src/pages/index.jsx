@@ -8,7 +8,7 @@ import QrCodeBox from "@/components/QrCodeBox";
 import Head from "next/head";
 
 export default function Home() {
-  const version = "1.0.4.2";
+  const version = "1.0.4.3";
   const [isDarkmode, setIsDarkmode] = useState(false);
   const [imgUrl, setImgUrl] = useState(null);
   const [downloadUrl, setDownloadUrl] = useState("#");
