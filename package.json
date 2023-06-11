@@ -1,6 +1,6 @@
 {
   "name": "qrcode-generator",
-  "version": "1.0.4.4",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,6 +13,7 @@
     "color-convert": "^2.0.1",
     "jquery": "^3.6.4",
     "next": "13.3.0",
+    "qrcode": "^1.5.3",
     "react": "18.2.0",
     "react-bootstrap-icons": "^1.10.3",
     "react-dom": "18.2.0",

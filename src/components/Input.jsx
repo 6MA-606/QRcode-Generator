@@ -2,9 +2,7 @@ import { useState } from "react";
 import classNames from "classnames";
 
 export const TextInput = (props) => {
-  const { label, id, className, placeholder } = props;
-
-  const [value, setValue] = useState("");
+  const { label, id, className, placeholder, onChange } = props;
 
   return (
     <div id={id + "Block"}>
@@ -15,9 +13,7 @@ export const TextInput = (props) => {
         type="text"
         placeholder={placeholder}
         autocomplete="off"
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
+        onChange={onChange}
         value={value}
       />
     </div>
@@ -25,9 +21,7 @@ export const TextInput = (props) => {
 };
 
 export const TextBox = (props) => {
-  const { label, id, className, placeholder, cols, rows } = props;
-
-  const [value, setValue] = useState("");
+  const { label, id, className, placeholder, cols, rows, onChange } = props;
 
   return (
     <div id={id + "Block"}>
@@ -38,19 +32,14 @@ export const TextBox = (props) => {
         placeholder={placeholder}
         cols={cols}
         rows={rows}
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
-        value={value}
+        onChange={onChange}
       />
     </div>
   );
 };
 
 export const ColorInput = (props) => {
-  const { label, id, base } = props;
-
-  const [value, setValue] = useState(base);
+  const { label, id, value, onChange } = props;
 
   return (
     <div id={id + "Block"} className="flex items-center mx-0 my-1">
@@ -65,9 +54,7 @@ export const ColorInput = (props) => {
           className="w-24 px-2 py-1 text-base transition-colors bg-white border border-gray-300 rounded colorInput-text isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500"
           type="text"
           value={value}
-          onChange={(e) => {
-            setValue(e.target.value);
-          }}
+          onChange={onChange}
           id={id + "Input"}
         />
         <label htmlFor={id + "Picker"}>
@@ -79,10 +66,8 @@ export const ColorInput = (props) => {
         <input
           style={{ width: 0, height: 0, opacity: 0 }}
           type="color"
-          value={value}
-          onChange={(e) => {
-            setValue(e.target.value);
-          }}
+          // value={value}
+          onChange={onChange}
           id={id + "Picker"}
         />
       </div>

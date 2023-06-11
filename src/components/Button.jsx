@@ -2,7 +2,7 @@ import { MoonFill, SunFill } from "react-bootstrap-icons";
 import { useEffect, useState } from "react";
 
 export const Button = (props) => {
-  const { label, id, className, onClick, style } = props;
+  const { label, id, className, onClick, style, disabled } = props;
 
   return (
     <button
@@ -10,6 +10,7 @@ export const Button = (props) => {
       id={id}
       onClick={onClick}
       style={style}
+      disabled={disabled}
     >
       {label}
     </button>
