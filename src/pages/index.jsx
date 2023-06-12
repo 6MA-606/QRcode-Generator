@@ -1,19 +1,26 @@
 import { useEffect, useState } from "react";
-import { ColorInput, FileInput, OptionInput, RangeInput, TextBox } from "@/components/Input";
+import {
+  ColorInput,
+  FileInput,
+  OptionInput,
+  RangeInput,
+  TextBox,
+} from "@/components/Input";
 import { Button, CornerButton, DarkmodeButton } from "@/components/Button";
 import { Github } from "react-bootstrap-icons";
 import Head from "next/head";
 import QRCodeComponent from "@/components/QRCodeComponent";
 
 export default function Home() {
-  const version = "2.1.0 alpha 3.0";
+  const version = "2.1.0 alpha 3.1";
   const [isDarkmode, setIsDarkmode] = useState(false);
   const [text, setText] = useState("");
   const [color, setColor] = useState("#000000");
   const [bgColor, setBgColor] = useState("#ffffff");
   const [qrCodeCanvas, setQRCodeCanvas] = useState(null);
   const [base64Image, setBase64Image] = useState("");
-  const [size, setSize] = useState(40);
+  const [size, setSize] = useState(256);
+  const [imageSize, setImageSize] = useState(15);
   const [errorCorrectionLevel, setErrorCorrectionLevel] = useState("L");
 
   const handleQRCodeGenerated = (canvas) => {
@@ -22,10 +29,10 @@ export default function Home() {
 
   const handleDownload = () => {
     if (qrCodeCanvas) {
-      const dataURL = qrCodeCanvas.toDataURL('image/png');
-      const downloadLink = document.createElement('a');
+      const dataURL = qrCodeCanvas.toDataURL("image/png");
+      const downloadLink = document.createElement("a");
       downloadLink.href = dataURL;
-      downloadLink.download = 'qrcode.png';
+      downloadLink.download = "qrcode.png";
       downloadLink.click();
     }
   };
@@ -41,6 +48,10 @@ export default function Home() {
 
   const handleBgColorChange = (e) => {
     setBgColor(e.target.value);
+  };
+
+  const handleSizeChange = (e) => {
+    setSize(e.target.value);
   };
 
   const handleImageChange = (image) => {
@@ -59,8 +70,8 @@ export default function Home() {
     };
   };
 
-  const handleSizeChange = (e) => {
-    setSize(e.target.value);
+  const handleImageSizeChange = (e) => {
+    setImageSize(e.target.value);
   };
 
   const handleErrorCorrectionLevelChange = (e) => {
@@ -68,7 +79,11 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
       document.documentElement.classList.add("dark");
       setIsDarkmode(true);
     } else {
@@ -85,21 +100,15 @@ export default function Home() {
           name="description"
           content="จริง ๆ คือทำมาทดสอบ darkmode 555555"
         />
-        <meta name="google-site-verification" content="fTpcRTgchLEorR5mVUoQp8NUGiwU5Gl5Zm11Fu39ZmA" />
         <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
+          name="google-site-verification"
+          content="fTpcRTgchLEorR5mVUoQp8NUGiwU5Gl5Zm11Fu39ZmA"
         />
-        <link
-          rel="icon"
-          href="/favicon.ico"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex flex-col items-center justify-center w-screen h-screen min-h-full font-sans text-base transition-colors zyxma__container isolate bg-neutral-50 dark:bg-neutral-800 ">
-        <DarkmodeButton
-          state={isDarkmode}
-          setState={setIsDarkmode}
-        />
+      <main className="flex flex-col items-center w-screen h-screen min-h-full mt-8 font-sans text-base transition-colors sm:mt-0 sm:justify-center zyxma__container isolate">
+        <DarkmodeButton state={isDarkmode} setState={setIsDarkmode} />
         <CornerButton
           icon={<Github size={30} color="lightgray" />}
           url={"https://github.com/6MA-606/goqr-QRcode-Generator"}
@@ -118,27 +127,28 @@ export default function Home() {
             ZYXMA
           </a>
         </div>
-        <div className="flex items-center justify-center w-8/12 h-96">
+        <div className="flex flex-col items-center w-8/12 gap-8 sm:justify-center sm:flex-row h-96">
           <div className="flex flex-col items-center justify-center flex-1">
             <QRCodeComponent
               text={text}
               color={color}
               bgColor={bgColor}
+              size={size}
               image={{
                 base64Image: base64Image,
-                size: size,
+                size: imageSize,
               }}
               errorCorrectionLevel={errorCorrectionLevel}
               isDarkmode={isDarkmode}
               onQRCodeGenerated={handleQRCodeGenerated}
             />
             <Button
-                  label="Download"
-                  id="qr-download"
-                  className="bg-orange-400 hover:bg-orange-500 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
-                  onClick={handleDownload}
-                  disabled={text.length === 0}
-                />
+              label="Download"
+              id="qr-download"
+              className="bg-orange-400 hover:bg-orange-500 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
+              onClick={handleDownload}
+              disabled={text.length === 0}
+            />
           </div>
           <div className="flex items-center justify-center flex-1 w-full">
             <div className="flex flex-col">
@@ -169,11 +179,13 @@ export default function Home() {
               <RangeInput
                 label="Image Size"
                 id="qr-imageSize"
-                min={0}
-                max={256}
+                min={1}
+                max={100}
                 step={1}
-                value={size}
-                onChange={handleSizeChange}
+                value={imageSize}
+                unit={"%"}
+                onChange={handleImageSizeChange}
+                hidden={base64Image === ""}
               />
               <OptionInput
                 label="Error Correction Level"

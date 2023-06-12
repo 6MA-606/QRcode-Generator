@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useState } from "react";
-import { EraserFill, X, XCircleFill } from "react-bootstrap-icons";
+import { XCircleFill } from "react-bootstrap-icons";
 
 export const TextInput = (props) => {
   const { label, id, className, placeholder, onChange } = props;
@@ -100,7 +100,7 @@ export const FileInput = (props) => {
         {label}
       </div>
       <div className="flex items-center transition-colors bg-white border border-gray-300 rounded justify-centertext-base h-9 colorInput-text dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500">
-        <label 
+        <label
           htmlFor={id + "Input"}
           className="flex items-center justify-center w-full h-full cursor-pointer"
           style={{ flex: "10" }}
@@ -130,7 +130,9 @@ export const FileInput = (props) => {
 };
 
 export const RangeInput = (props) => {
-  const { label, id, min, max, step, value, onChange } = props;
+  const { label, unit, id, min, max, step, value, onChange, hidden } = props;
+
+  if (hidden) return null;
 
   return (
     <div id={id + "Block"} className="flex flex-col mx-0 my-1">
@@ -138,26 +140,26 @@ export const RangeInput = (props) => {
         {label}
       </div>
       <div className="flex items-center">
-        <input
-          className="w-24 px-2 py-1 mr-1 text-base transition-colors bg-white border border-gray-300 rounded colorInput-text isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500"
-          type="number"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={onChange}
-          id={id + "Input"}
-        />
-        <input
-          className="w-64 px-2 py-1 mr-1 text-base transition-colors bg-white border border-gray-300 rounded colorInput-text isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500"
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={onChange}
-          id={id + "Range"}
-        />
+        <div
+          className="flex items-center justify-center mr-1 text-base transition-colors colorInput-text isolate dark:text-neutral-200"
+          style={{ flex: "1" }}
+        >
+          {value}
+          {unit}
+        </div>
+        <div className="flex items-center justify-center">
+          <input
+            className="px-2 py-1 mr-1 text-base transition-colors bg-white border border-gray-300 rounded w-52 colorInput-text isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500"
+            style={{ flex: "5" }}
+            type="range"
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            onChange={onChange}
+            id={id + "Range"}
+          />
+        </div>
       </div>
     </div>
   );
@@ -177,7 +179,9 @@ export const OptionInput = (props) => {
         id={id + "Input"}
       >
         {options.map((option) => (
-          <option key={option.label} value={option.value}>{option.label}</option>
+          <option key={option.label} value={option.value}>
+            {option.label}
+          </option>
         ))}
       </select>
     </div>
