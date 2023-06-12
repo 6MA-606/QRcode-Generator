@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ColorInput, TextBox } from "@/components/Input";
+import { ColorInput, FileInput, TextBox } from "@/components/Input";
 import { Button, CornerButton, DarkmodeButton } from "@/components/Button";
 import { Github } from "react-bootstrap-icons";
 import Head from "next/head";
@@ -12,6 +12,7 @@ export default function Home() {
   const [color, setColor] = useState("#000000");
   const [bgColor, setBgColor] = useState("#ffffff");
   const [qrCodeCanvas, setQRCodeCanvas] = useState(null);
+  const [image, setImage] = useState("");
 
   const handleQRCodeGenerated = (canvas) => {
     setQRCodeCanvas(canvas);
@@ -38,6 +39,23 @@ export default function Home() {
 
   const handleBgColorChange = (e) => {
     setBgColor(e.target.value);
+  };
+
+  const handleImageChange = (file) => {
+    if (file !== null) convertToBase64(file);
+    else setImage("");
+  };
+
+  const convertToBase64 = (file) => {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setImage(reader.result);
+      // console.log(reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log("Error: ", error);
+    };
   };
 
   useEffect(() => {
@@ -91,45 +109,56 @@ export default function Home() {
             ZYXMA
           </a>
         </div>
-        <QRCodeComponent
-          text={text}
-          color={color}
-          bgColor={bgColor}
-          isDarkmode={isDarkmode}
-          onQRCodeGenerated={handleQRCodeGenerated}
-        />
-        <TextBox
-          id="qr-input"
-          placeholder="Link or text here" 
-          onChange={handleTextChange}
-        />
-        <ColorInput
-          label="Color"
-          id="qr-color"
-          value={color}
-          onChange={handleColorChange}
-        />
-        <ColorInput
-          label="Background Color"
-          id="qr-bgcolor"
-          value={bgColor}
-          onChange={handleBgColorChange}
-        />
-        <div className="flex my-2">
-          {/* <Button
-            label="Generate"
-            id="qr-submit"
-            className="bg-orange-400 hover:bg-orange-500"
-            onClick={qrRequest}
-          /> */}
-          <Button
-            label="Download"
-            id="qr-download"
-            className="bg-orange-400 hover:bg-orange-500 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
-            onClick={handleDownload}
-            disabled={text.length === 0}
-            // style={{ display: "none" }}
-          />
+        <div className="flex items-center justify-center w-8/12 h-96">
+          <div className="flex flex-col items-center justify-center flex-1">
+            <QRCodeComponent
+              text={text}
+              image={{
+                base64Image: image,
+                size: 40,
+              }}
+              color={color}
+              bgColor={bgColor}
+              isDarkmode={isDarkmode}
+              onQRCodeGenerated={handleQRCodeGenerated}
+            />
+            <Button
+                  label="Download"
+                  id="qr-download"
+                  className="bg-orange-400 hover:bg-orange-500 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
+                  onClick={handleDownload}
+                  disabled={text.length === 0}
+                  // style={{ display: "none" }}
+                />
+          </div>
+          <div className="flex items-center justify-center flex-1 w-full">
+            <div className="flex flex-col">
+              <TextBox
+                id="qr-input"
+                placeholder="Link or text here"
+                onChange={handleTextChange}
+              />
+              <div className="flex justify-between">
+                <ColorInput
+                  label="Color"
+                  id="qr-color"
+                  value={color}
+                  onChange={handleColorChange}
+                />
+                <ColorInput
+                  label="Background Color"
+                  id="qr-bgcolor"
+                  value={bgColor}
+                  onChange={handleBgColorChange}
+                />
+              </div>
+              <FileInput
+                label="Image"
+                id="qr-image"
+                onChange={handleImageChange}
+              />
+            </div>
+          </div>
         </div>
       </main>
     </>
