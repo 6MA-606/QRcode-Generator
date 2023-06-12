@@ -6,7 +6,7 @@ import Head from "next/head";
 import QRCodeComponent from "@/components/QRCodeComponent";
 
 export default function Home() {
-  const version = "2.0.0";
+  const version = "2.1.0 alpha 1.0";
   const [isDarkmode, setIsDarkmode] = useState(false);
   const [text, setText] = useState("");
   const [color, setColor] = useState("#000000");
