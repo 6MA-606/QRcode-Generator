@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { ColorInput, FileInput, TextBox } from "@/components/Input";
+import { ColorInput, FileInput, OptionInput, TextBox } from "@/components/Input";
 import { Button, CornerButton, DarkmodeButton } from "@/components/Button";
 import { Github } from "react-bootstrap-icons";
 import Head from "next/head";
 import QRCodeComponent from "@/components/QRCodeComponent";
 
 export default function Home() {
-  const version = "2.1.0 alpha 1.0";
+  const version = "2.1.0 alpha 2.0";
   const [isDarkmode, setIsDarkmode] = useState(false);
   const [text, setText] = useState("");
   const [color, setColor] = useState("#000000");
   const [bgColor, setBgColor] = useState("#ffffff");
   const [qrCodeCanvas, setQRCodeCanvas] = useState(null);
   const [image, setImage] = useState("");
+  const [errorCorrectionLevel, setErrorCorrectionLevel] = useState("L");
 
   const handleQRCodeGenerated = (canvas) => {
     setQRCodeCanvas(canvas);
@@ -51,11 +52,14 @@ export default function Home() {
     reader.readAsDataURL(file);
     reader.onload = () => {
       setImage(reader.result);
-      // console.log(reader.result);
     };
     reader.onerror = function (error) {
       console.log("Error: ", error);
     };
+  };
+
+  const handleErrorCorrectionLevelChange = (e) => {
+    setErrorCorrectionLevel(e.target.value);
   };
 
   useEffect(() => {
@@ -113,12 +117,13 @@ export default function Home() {
           <div className="flex flex-col items-center justify-center flex-1">
             <QRCodeComponent
               text={text}
+              color={color}
+              bgColor={bgColor}
               image={{
                 base64Image: image,
                 size: 40,
               }}
-              color={color}
-              bgColor={bgColor}
+              errorCorrectionLevel={errorCorrectionLevel}
               isDarkmode={isDarkmode}
               onQRCodeGenerated={handleQRCodeGenerated}
             />
@@ -156,6 +161,17 @@ export default function Home() {
                 label="Image"
                 id="qr-image"
                 onChange={handleImageChange}
+              />
+              <OptionInput
+                label="Error Correction Level"
+                id="qr-errorCorrectionLevel"
+                options={[
+                  { value: "L", label: "L" },
+                  { value: "M", label: "M" },
+                  { value: "Q", label: "Q" },
+                  { value: "H", label: "H" },
+                ]}
+                onChange={handleErrorCorrectionLevelChange}
               />
             </div>
           </div>

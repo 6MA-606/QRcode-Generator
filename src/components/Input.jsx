@@ -61,7 +61,7 @@ export const ColorInput = (props) => {
         />
         <label htmlFor={id + "Picker"}>
           <div
-            className="w-5 h-5 transition-colors border border-gray-300 rounded cursor-pointer colorInput-color isolate dark:border-neutral-500"
+            className="w-5 h-5 border border-gray-300 rounded cursor-pointer colorInput-color isolate dark:border-neutral-500"
             style={{ backgroundColor: value }}
           ></div>
         </label>
@@ -125,6 +125,27 @@ export const FileInput = (props) => {
           id={id + "Input"}
         />
       </div>
+    </div>
+  );
+};
+
+export const OptionInput = (props) => {
+  const { label, id, options, onChange } = props;
+
+  return (
+    <div id={id + "Block"} className="flex flex-col mx-0 my-1">
+      <div className="mb-1 text-xs font-semibold transition-colors colorInput-label isolate text-neutral-800 dark:text-neutral-50">
+        {label}
+      </div>
+      <select
+        className="w-64 px-2 py-1 text-base transition-colors bg-white border border-gray-300 rounded colorInput-text isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500"
+        onChange={onChange}
+        id={id + "Input"}
+      >
+        {options.map((option) => (
+          <option key={option.label} value={option.value}>{option.label}</option>
+        ))}
+      </select>
     </div>
   );
 };

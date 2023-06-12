@@ -3,11 +3,12 @@ import QRCode from "qrcode";
 import Image from "next/image";
 
 const QRCodeComponent = (props) => {
-  const { text, color, bgColor, isDarkmode, onQRCodeGenerated, image } = props;
+  const { text, color, bgColor, isDarkmode, onQRCodeGenerated, image, errorCorrectionLevel } = props;
   const qrCodeRef = useRef(null);
 
   useEffect(() => {
     const options = {
+        errorCorrectionLevel: errorCorrectionLevel,
         margin : 2,
         width: 256,
         type: 'image/svg+xml',
@@ -22,7 +23,7 @@ const QRCodeComponent = (props) => {
             else onQRCodeGenerated(qrCodeRef.current);
         });
     }
-  }, [text, color, bgColor, isDarkmode, onQRCodeGenerated]);
+  }, [text, color, bgColor, isDarkmode, onQRCodeGenerated, errorCorrectionLevel]);
 
   useEffect(() => {
     if (image !== "" && text !== "") {
