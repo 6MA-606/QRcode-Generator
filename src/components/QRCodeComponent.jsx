@@ -32,7 +32,7 @@ const QRCodeComponent = (props) => {
         const img = document.createElement("img");
         img.src = image.base64Image;
         img.onload = () => {
-            ctx.drawImage(img, 108, 108, 40, 40);
+            ctx.drawImage(img, 128 - (image.size / 2), 128 - (image.size / 2), image.size, image.size);
             onQRCodeGenerated(canvas);
         };
     }

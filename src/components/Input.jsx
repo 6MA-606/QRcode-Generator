@@ -129,6 +129,40 @@ export const FileInput = (props) => {
   );
 };
 
+export const RangeInput = (props) => {
+  const { label, id, min, max, step, value, onChange } = props;
+
+  return (
+    <div id={id + "Block"} className="flex flex-col mx-0 my-1">
+      <div className="mb-1 text-xs font-semibold transition-colors colorInput-label isolate text-neutral-800 dark:text-neutral-50">
+        {label}
+      </div>
+      <div className="flex items-center">
+        <input
+          className="w-24 px-2 py-1 mr-1 text-base transition-colors bg-white border border-gray-300 rounded colorInput-text isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500"
+          type="number"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={onChange}
+          id={id + "Input"}
+        />
+        <input
+          className="w-64 px-2 py-1 mr-1 text-base transition-colors bg-white border border-gray-300 rounded colorInput-text isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500"
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={onChange}
+          id={id + "Range"}
+        />
+      </div>
+    </div>
+  );
+};
+
 export const OptionInput = (props) => {
   const { label, id, options, onChange } = props;
 

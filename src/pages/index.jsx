@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ColorInput, FileInput, OptionInput, TextBox } from "@/components/Input";
+import { ColorInput, FileInput, OptionInput, RangeInput, TextBox } from "@/components/Input";
 import { Button, CornerButton, DarkmodeButton } from "@/components/Button";
 import { Github } from "react-bootstrap-icons";
 import Head from "next/head";
@@ -12,7 +12,8 @@ export default function Home() {
   const [color, setColor] = useState("#000000");
   const [bgColor, setBgColor] = useState("#ffffff");
   const [qrCodeCanvas, setQRCodeCanvas] = useState(null);
-  const [image, setImage] = useState("");
+  const [base64Image, setBase64Image] = useState("");
+  const [size, setSize] = useState(40);
   const [errorCorrectionLevel, setErrorCorrectionLevel] = useState("L");
 
   const handleQRCodeGenerated = (canvas) => {
@@ -42,20 +43,24 @@ export default function Home() {
     setBgColor(e.target.value);
   };
 
-  const handleImageChange = (file) => {
-    if (file !== null) convertToBase64(file);
-    else setImage("");
+  const handleImageChange = (image) => {
+    if (image !== null) imageToBase64(image);
+    else setBase64Image("");
   };
 
-  const convertToBase64 = (file) => {
+  const imageToBase64 = (image) => {
     var reader = new FileReader();
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(image);
     reader.onload = () => {
-      setImage(reader.result);
+      setBase64Image(reader.result);
     };
     reader.onerror = function (error) {
       console.log("Error: ", error);
     };
+  };
+
+  const handleSizeChange = (e) => {
+    setSize(e.target.value);
   };
 
   const handleErrorCorrectionLevelChange = (e) => {
@@ -120,8 +125,8 @@ export default function Home() {
               color={color}
               bgColor={bgColor}
               image={{
-                base64Image: image,
-                size: 40,
+                base64Image: base64Image,
+                size: size,
               }}
               errorCorrectionLevel={errorCorrectionLevel}
               isDarkmode={isDarkmode}
@@ -133,7 +138,6 @@ export default function Home() {
                   className="bg-orange-400 hover:bg-orange-500 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
                   onClick={handleDownload}
                   disabled={text.length === 0}
-                  // style={{ display: "none" }}
                 />
           </div>
           <div className="flex items-center justify-center flex-1 w-full">
@@ -161,6 +165,15 @@ export default function Home() {
                 label="Image"
                 id="qr-image"
                 onChange={handleImageChange}
+              />
+              <RangeInput
+                label="Image Size"
+                id="qr-imageSize"
+                min={0}
+                max={256}
+                step={1}
+                value={size}
+                onChange={handleSizeChange}
               />
               <OptionInput
                 label="Error Correction Level"
