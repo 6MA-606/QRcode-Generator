@@ -191,10 +191,10 @@ export default function Home() {
                 label="Error Correction Level"
                 id="qr-errorCorrectionLevel"
                 options={[
-                  { value: "L", label: "L" },
-                  { value: "M", label: "M" },
-                  { value: "Q", label: "Q" },
-                  { value: "H", label: "H" },
+                  { value: "L", label: "Low" },
+                  { value: "M", label: "Medium" },
+                  { value: "Q", label: "Quartile" },
+                  { value: "H", label: "High" },
                 ]}
                 onChange={handleErrorCorrectionLevelChange}
               />
