@@ -115,7 +115,7 @@ export const FileInput = (props) => {
       <div className="flex items-center transition-colors bg-white border border-gray-300 rounded justify-centertext-base h-9 colorInput-text dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500">
         <label
           htmlFor={id + "Input"}
-          className="flex items-center justify-center h-full cursor-pointer"
+          className="flex items-center justify-center h-full cursor-pointer whitespace-nowrap"
           style={{ flex: "10" }}
         >
           {filename === "" ? (
