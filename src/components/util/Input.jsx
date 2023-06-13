@@ -85,11 +85,12 @@ export const FileInput = (props) => {
 
   const handleChange = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
     const filenameSplit = file.name.split(".");
     const filetype = filenameSplit[filenameSplit.length - 1];
-    if (!filetypeArray.includes(filetype)) {
-      clearInput();
-      alert("Invalid file type! Please upload a " + filetypes + " file.");
+    if (!filetypeArray.includes(filetype.toLowerCase())) {
+      e.preventDefault();
+      alert("Invalid file type! \nPlease upload a " + filetypeArray.join(", ") + " file.");
       return;
     }
     setFilename(file.name);

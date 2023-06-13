@@ -13,7 +13,7 @@ import QRCodeComponent from "@/components/QRCodeComponent";
 import { Collapsible } from "@/components/util/Collapsible";
 
 export default function Home() {
-  const version = "2.1.0 alpha 4.1";
+  const version = "2.1.0 alpha 4.2";
   const [isDarkmode, setIsDarkmode] = useState(false);
   const [text, setText] = useState("");
   const [color, setColor] = useState("#000000");

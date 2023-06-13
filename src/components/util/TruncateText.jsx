@@ -3,8 +3,9 @@ export const TruncateText = (props) => {
     var resultString = "";
 
     if (keepExtension) {
-        var name = text.split(".")[0];
-        var extension = text.split(".")[1];
+        var textArray = text.split(".");
+        var name = textArray[0];
+        var extension = textArray[textArray.length - 1];
         resultString = (name.length > maxLength) ? (name.slice(0, maxLength - 1) + "*" + "." + extension) : text;
     } else {
         resultString = (text.length > maxLength) ? (text.slice(0, maxLength - 3) + "...") : (text);
