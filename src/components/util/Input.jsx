@@ -30,7 +30,7 @@ export const TextBox = (props) => {
       <textarea
         id={id}
         className={
-          "w-64 h-20 px-3 py-2 text-base transition-colors bg-white border rounded resize-none textBox-text border-neutral-300 isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500" +
+          "w-full h-20 px-3 py-2 text-base transition-colors bg-white border rounded resize-none textBox-text border-neutral-300 isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500" +
           " " +
           className
         }
@@ -105,7 +105,7 @@ export const FileInput = (props) => {
           className="flex items-center justify-center w-full h-full cursor-pointer"
           style={{ flex: "10" }}
         >
-          <div className="flex items-center justify-center overflow-hidden w-44 whitespace-nowrap">
+          <div className="flex items-center justify-center overflow-hidden whitespace-nowrap">
             {filename === "" ? "Browse Image" : filename}
           </div>
         </label>
@@ -130,7 +130,7 @@ export const FileInput = (props) => {
 };
 
 export const RangeInput = (props) => {
-  const { label, unit, id, min, max, step, value, onChange, hidden } = props;
+  const { label, unit, id, min, max, step, value, onChange, hidden, disabled } = props;
 
   if (hidden) return null;
 
@@ -139,18 +139,19 @@ export const RangeInput = (props) => {
       <div className="mb-1 text-xs font-semibold transition-colors colorInput-label isolate text-neutral-800 dark:text-neutral-50">
         {label}
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center w-auto">
         <div
-          className="flex items-center justify-center mr-1 text-base transition-colors colorInput-text isolate dark:text-neutral-200"
+          className={"flex items-center justify-center mr-1 text-base transition-colors colorInput-text isolate dark:text-neutral-200" + (disabled ? " opacity-50" : "")}
           style={{ flex: "1" }}
         >
           {value}
           {unit}
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center"
+            style={{ flex: "4" }}
+            >
           <input
-            className="px-2 py-1 mr-1 text-base transition-colors bg-white border border-gray-300 rounded w-52 colorInput-text isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500"
-            style={{ flex: "5" }}
+            className="w-full px-2 py-1 mr-1 text-base transition-colors bg-white border border-gray-300 rounded disabled:opacity-50 colorInput-text isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500"
             type="range"
             min={min}
             max={max}
@@ -158,6 +159,7 @@ export const RangeInput = (props) => {
             value={value}
             onChange={onChange}
             id={id + "Range"}
+            disabled={disabled}
           />
         </div>
       </div>
@@ -174,7 +176,7 @@ export const OptionInput = (props) => {
         {label}
       </div>
       <select
-        className="w-64 px-2 py-1 text-base transition-colors bg-white border border-gray-300 rounded colorInput-text isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500"
+        className="w-auto px-2 py-1 text-base transition-colors bg-white border border-gray-300 rounded colorInput-text isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500"
         onChange={onChange}
         id={id + "Input"}
       >

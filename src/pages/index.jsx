@@ -5,14 +5,15 @@ import {
   OptionInput,
   RangeInput,
   TextBox,
-} from "@/components/Input";
-import { Button, CornerButton, DarkmodeButton } from "@/components/Button";
+} from "@/components/util/Input";
+import { Button, CornerButton, DarkmodeButton } from "@/components/util/Button";
 import { Github } from "react-bootstrap-icons";
 import Head from "next/head";
 import QRCodeComponent from "@/components/QRCodeComponent";
+import { Collapsible } from "@/components/util/Collapsible";
 
 export default function Home() {
-  const version = "2.1.0 alpha 3.1";
+  const version = "2.1.0 alpha 4.0";
   const [isDarkmode, setIsDarkmode] = useState(false);
   const [text, setText] = useState("");
   const [color, setColor] = useState("#000000");
@@ -98,7 +99,7 @@ export default function Home() {
         <title>QR-Code Generator</title>
         <meta
           name="description"
-          content="จริง ๆ คือทำมาทดสอบ darkmode 555555"
+          content="A simple QR-Code Generator made with Next.js and TailwindCSS by ZYXMA."
         />
         <meta
           name="google-site-verification"
@@ -127,8 +128,8 @@ export default function Home() {
             ZYXMA
           </a>
         </div>
-        <div className="flex flex-col items-center w-8/12 gap-8 sm:justify-center sm:flex-row h-96">
-          <div className="flex flex-col items-center justify-center flex-1">
+        <div className="flex flex-col items-center w-8/12 gap-8 sm:w-10/12 sm:justify-center sm:flex-row h-96">
+          <div className="flex flex-col items-center justify-center" style={{flex: 1}} >
             <QRCodeComponent
               text={text}
               color={color}
@@ -150,14 +151,14 @@ export default function Home() {
               disabled={text.length === 0}
             />
           </div>
-          <div className="flex items-center justify-center flex-1 w-full">
-            <div className="flex flex-col">
+          <div className="flex items-center justify-center w-full" style={{flex: 1}}>
+            <div className="flex flex-col w-64 sm:w-4/5">
               <TextBox
                 id="qr-input"
                 placeholder="Link or text here"
                 onChange={handleTextChange}
               />
-              <div className="flex justify-between">
+              <div className="flex justify-between mb-1 sm:justify-start sm:gap-2">
                 <ColorInput
                   label="Color"
                   id="qr-color"
@@ -171,33 +172,41 @@ export default function Home() {
                   onChange={handleBgColorChange}
                 />
               </div>
-              <FileInput
-                label="Image"
-                id="qr-image"
-                onChange={handleImageChange}
-              />
-              <RangeInput
-                label="Image Size"
-                id="qr-imageSize"
-                min={1}
-                max={100}
-                step={1}
-                value={imageSize}
-                unit={"%"}
-                onChange={handleImageSizeChange}
-                hidden={base64Image === ""}
-              />
-              <OptionInput
-                label="Error Correction Level"
-                id="qr-errorCorrectionLevel"
-                options={[
-                  { value: "L", label: "Low" },
-                  { value: "M", label: "Medium" },
-                  { value: "Q", label: "Quartile" },
-                  { value: "H", label: "High" },
-                ]}
-                onChange={handleErrorCorrectionLevelChange}
-              />
+              <div className="flex flex-col sm:flex-row sm:gap-1">
+                <Collapsible id="image" label="Image" className="sm:flex-1">
+                  <FileInput
+                    // label="Image"
+                    id="qr-image"
+                    onChange={handleImageChange}
+                  />
+                  <div className="mb-2"></div>
+                  <RangeInput
+                    label="Image Size"
+                    id="qr-imageSize"
+                    min={1}
+                    max={100}
+                    step={1}
+                    value={imageSize}
+                    unit={"%"}
+                    onChange={handleImageSizeChange}
+                    disabled={base64Image === ""}
+                    // hidden={base64Image === ""}
+                  />
+                </Collapsible>
+                <Collapsible label="Advanced" className="sm:flex-1">
+                  <OptionInput
+                    label="Error Correction Level"
+                    id="qr-errorCorrectionLevel"
+                    options={[
+                      { value: "L", label: "Low" },
+                      { value: "M", label: "Medium" },
+                      { value: "Q", label: "Quartile" },
+                      { value: "H", label: "High" },
+                    ]}
+                    onChange={handleErrorCorrectionLevelChange}
+                  />
+                </Collapsible>
+              </div>
             </div>
           </div>
         </div>
