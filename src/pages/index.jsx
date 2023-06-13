@@ -13,7 +13,7 @@ import QRCodeComponent from "@/components/QRCodeComponent";
 import { Collapsible } from "@/components/util/Collapsible";
 
 export default function Home() {
-  const version = "2.1.0 alpha 4.0";
+  const version = "2.1.0 alpha 4.1";
   const [isDarkmode, setIsDarkmode] = useState(false);
   const [text, setText] = useState("");
   const [color, setColor] = useState("#000000");
@@ -172,12 +172,13 @@ export default function Home() {
                   onChange={handleBgColorChange}
                 />
               </div>
-              <div className="flex flex-col sm:flex-row sm:gap-1">
+              <div className="flex flex-col lg:flex-row sm:gap-1">
                 <Collapsible id="image" label="Image" className="sm:flex-1">
                   <FileInput
                     // label="Image"
                     id="qr-image"
                     onChange={handleImageChange}
+                    filetypes="png,jpg,jpeg,svg"
                   />
                   <div className="mb-2"></div>
                   <RangeInput

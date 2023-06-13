@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { useState } from "react";
 import { XCircleFill } from "react-bootstrap-icons";
+import { TruncateText } from "./TruncateText";
 
 export const TextInput = (props) => {
   const { label, id, className, placeholder, onChange } = props;
@@ -77,19 +78,31 @@ export const ColorInput = (props) => {
 };
 
 export const FileInput = (props) => {
-  const { label, id, onChange } = props;
+  const { label, id, onChange, filetypes} = props;
 
   const [filename, setFilename] = useState("");
+  const filetypeArray = filetypes.split(",");
 
   const handleChange = (e) => {
     const file = e.target.files[0];
+    const filenameSplit = file.name.split(".");
+    const filetype = filenameSplit[filenameSplit.length - 1];
+    if (!filetypeArray.includes(filetype)) {
+      clearInput();
+      alert("Invalid file type! Please upload a " + filetypes + " file.");
+      return;
+    }
     setFilename(file.name);
     onChange(file);
   };
 
   const handleClear = () => {
-    setFilename("");
+    clearInput();
     onChange(null);
+  };
+
+  const clearInput = () => {
+    setFilename("");
     const input = document.getElementById(id + "Input");
     input.value = "";
   };
@@ -102,16 +115,18 @@ export const FileInput = (props) => {
       <div className="flex items-center transition-colors bg-white border border-gray-300 rounded justify-centertext-base h-9 colorInput-text dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500">
         <label
           htmlFor={id + "Input"}
-          className="flex items-center justify-center w-full h-full cursor-pointer"
+          className="flex items-center justify-center h-full cursor-pointer"
           style={{ flex: "10" }}
         >
-          <div className="flex items-center justify-center overflow-hidden whitespace-nowrap">
-            {filename === "" ? "Browse Image" : filename}
-          </div>
+          {filename === "" ? (
+            "Browse Image"
+          ) : (
+            <TruncateText text={filename} maxLength={10} keepExtension={true} />
+          )}
         </label>
         <div
           className="flex items-center justify-center h-full"
-          style={{ flex: "2", display: filename === "" ? "none" : "flex" }}
+          style={{ flex: "2" ,display: filename === "" ? "none" : "flex" }}
         >
           <XCircleFill
             className="transition-colors cursor-pointer hover:fill-red-400"
@@ -130,7 +145,8 @@ export const FileInput = (props) => {
 };
 
 export const RangeInput = (props) => {
-  const { label, unit, id, min, max, step, value, onChange, hidden, disabled } = props;
+  const { label, unit, id, min, max, step, value, onChange, hidden, disabled } =
+    props;
 
   if (hidden) return null;
 
@@ -141,15 +157,16 @@ export const RangeInput = (props) => {
       </div>
       <div className="flex items-center w-auto">
         <div
-          className={"flex items-center justify-center mr-1 text-base transition-colors colorInput-text isolate dark:text-neutral-200" + (disabled ? " opacity-50" : "")}
+          className={
+            "flex items-center justify-center mr-1 text-base transition-colors colorInput-text isolate dark:text-neutral-200" +
+            (disabled ? " opacity-50" : "")
+          }
           style={{ flex: "1" }}
         >
           {value}
           {unit}
         </div>
-        <div className="flex items-center justify-center"
-            style={{ flex: "4" }}
-            >
+        <div className="flex items-center justify-center" style={{ flex: "4" }}>
           <input
             className="w-full px-2 py-1 mr-1 text-base transition-colors bg-white border border-gray-300 rounded disabled:opacity-50 colorInput-text isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500"
             type="range"
