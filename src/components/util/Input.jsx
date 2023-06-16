@@ -78,7 +78,7 @@ export const ColorInput = (props) => {
 };
 
 export const FileInput = (props) => {
-  const { label, id, onChange, filetypes} = props;
+  const { label, id, className, onChange, filetypes, style } = props;
 
   const [filename, setFilename] = useState("");
   const filetypeArray = filetypes.split(",");
@@ -109,7 +109,7 @@ export const FileInput = (props) => {
   };
 
   return (
-    <div id={id + "Block"} className="flex flex-col mx-0 my-1">
+    <div id={id + "Block"} className={"flex flex-col mx-0 my-1" + className} style={style}>
       <div className="mb-1 text-xs font-semibold transition-colors colorInput-label isolate text-neutral-800 dark:text-neutral-50">
         {label}
       </div>
@@ -146,13 +146,13 @@ export const FileInput = (props) => {
 };
 
 export const RangeInput = (props) => {
-  const { label, unit, id, min, max, step, value, onChange, hidden, disabled } =
+  const { label, unit, id, min, max, step, value, onChange, hidden, disabled, style } =
     props;
 
   if (hidden) return null;
 
   return (
-    <div id={id + "Block"} className="flex flex-col mx-0 my-1">
+    <div id={id + "Block"} className="flex flex-col mx-0 my-1" style={style}>
       <div className="mb-1 text-xs font-semibold transition-colors colorInput-label isolate text-neutral-800 dark:text-neutral-50">
         {label}
       </div>
@@ -199,11 +199,111 @@ export const OptionInput = (props) => {
         id={id + "Input"}
       >
         {options.map((option) => (
-          <option key={option.label} value={option.value}>
+          <option key={option.label} value={option.value} selected={option.default}>
             {option.label}
           </option>
         ))}
       </select>
+    </div>
+  );
+};
+
+export const FileArea = (props) => {
+  const { label, id, className, onChange, filetypes, style } = props;
+
+  const [filename, setFilename] = useState("");
+  const filetypeArray = filetypes.split(",");
+  const [isDraggedOver, setIsDraggedOver] = useState(false);
+
+  const handleChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const filenameSplit = file.name.split(".");
+    const filetype = filenameSplit[filenameSplit.length - 1];
+    if (!filetypeArray.includes(filetype.toLowerCase())) {
+      e.preventDefault();
+      alert("Invalid file type! \nPlease upload a " + filetypeArray.join(", ") + " file.");
+      return;
+    }
+    setFilename(file.name);
+    onChange(file);
+  };
+
+  const handleClear = () => {
+    clearInput();
+    onChange(null);
+  }
+
+  const clearInput = () => {
+    setFilename("");
+    const input = document.getElementById(id + "Input");
+    input.value = "";
+  }
+
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    setIsDraggedOver(true);
+  }
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDraggedOver(false);
+  }
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDraggedOver(false);
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
+    const filenameSplit = file.name.split(".");
+    const filetype = filenameSplit[filenameSplit.length - 1];
+    if (!filetypeArray.includes(filetype.toLowerCase())) {
+      e.preventDefault();
+      alert("Invalid file type! \nPlease upload a " + filetypeArray.join(", ") + " file.");
+      return;
+    }
+    setFilename(file.name);
+    onChange(file);
+  }
+
+  return (
+    <div id={id + "Block"} className={"flex flex-col mx-0 my-1" + className} style={style}>
+      <div className="mb-1 text-xs font-semibold transition-colors colorInput-label isolate text-neutral-800 dark:text-neutral-50">
+        {label}
+      </div>
+      <div className="flex items-center transition-colors bg-white border border-gray-300 rounded justify-centertext-base h-9 colorInput-text dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500"
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        onDragOver={(e) => e.preventDefault()}
+      >
+        <label
+          htmlFor={id + "Input"}
+          className="flex items-center justify-center h-full cursor-pointer whitespace-nowrap"
+          style={{ flex: "10" }}
+        >
+          {filename === "" ? (
+            "Browse Image"
+          ) : (
+            <TruncateText text={filename} maxLength={10} keepExtension={true} />
+          )}
+        </label>
+        <div
+          className="flex items-center justify-center h-full"
+          style={{ flex: "2" ,display: filename === "" ? "none" : "flex" }}
+        >
+          <XCircleFill
+            className="transition-colors cursor-pointer hover:fill-red-400"
+            onClick={handleClear}
+          />
+        </div>
+        <input
+          className="w-0 h-0"
+          type="file"
+          onChange={handleChange}
+          id={id + "Input"}
+        />
+      </div>
     </div>
   );
 };

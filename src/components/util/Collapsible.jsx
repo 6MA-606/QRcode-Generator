@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Dash, Plus } from "react-bootstrap-icons";
 
 export const Collapsible = (props) => {
-  const { label, id, className,children } = props;
+  const { label, id, className, containerClassName, children } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => {
@@ -44,7 +44,7 @@ export const Collapsible = (props) => {
         }
         style={{ height: isOpen ? (document.getElementById(id + "Collapsible").firstChild.scrollHeight + 10) + "px" : "0px" }}
       >
-        <div className="flex flex-col w-11/12 h-auto">{children}</div>
+        <div className={"flex flex-col w-11/12 h-auto " + containerClassName}>{children}</div>
       </div>
     </div>
   );

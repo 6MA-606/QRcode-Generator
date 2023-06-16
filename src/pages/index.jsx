@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   ColorInput,
+  FileArea,
   FileInput,
   OptionInput,
   RangeInput,
@@ -13,7 +14,7 @@ import QRCodeComponent from "@/components/QRCodeComponent";
 import { Collapsible } from "@/components/util/Collapsible";
 
 export default function Home() {
-  const version = "2.1.0 alpha 4.2";
+  const version = "2.1.0";
   const [isDarkmode, setIsDarkmode] = useState(false);
   const [text, setText] = useState("");
   const [color, setColor] = useState("#000000");
@@ -22,7 +23,7 @@ export default function Home() {
   const [base64Image, setBase64Image] = useState("");
   const [size, setSize] = useState(256);
   const [imageSize, setImageSize] = useState(15);
-  const [errorCorrectionLevel, setErrorCorrectionLevel] = useState("L");
+  const [errorCorrectionLevel, setErrorCorrectionLevel] = useState("M");
 
   const handleQRCodeGenerated = (canvas) => {
     setQRCodeCanvas(canvas);
@@ -129,7 +130,10 @@ export default function Home() {
           </a>
         </div>
         <div className="flex flex-col items-center w-8/12 gap-8 sm:w-10/12 sm:justify-center sm:flex-row h-96">
-          <div className="flex flex-col items-center justify-center" style={{flex: 1}} >
+          <div
+            className="flex flex-col items-center justify-center"
+            style={{ flex: 1 }}
+          >
             <QRCodeComponent
               text={text}
               color={color}
@@ -151,7 +155,10 @@ export default function Home() {
               disabled={text.length === 0}
             />
           </div>
-          <div className="flex items-center justify-center w-full" style={{flex: 1}}>
+          <div
+            className="flex items-center justify-center w-full"
+            style={{ flex: 1 }}
+          >
             <div className="flex flex-col w-64 sm:w-4/5">
               <TextBox
                 id="qr-input"
@@ -172,18 +179,29 @@ export default function Home() {
                   onChange={handleBgColorChange}
                 />
               </div>
-              <div className="flex flex-col lg:flex-row sm:gap-1">
-                <Collapsible id="image" label="Image" className="sm:flex-1">
-                  <FileInput
+              <div className="flex flex-col">
+                <Collapsible id="image" label="Image" className="sm:flex-1" containerClassName="lg:flex-row lg:gap-2">
+                  {/* <FileInput
                     // label="Image"
                     id="qr-image"
+                    // className=""
+                    style={{flex: "1"}}
+                    onChange={handleImageChange}
+                    filetypes="png,jpg,jpeg,svg"
+                  /> */}
+                  <FileArea
+                    // label="Image"
+                    id="qr-image"
+                    // className=""
+                    style={{flex: "1"}}
                     onChange={handleImageChange}
                     filetypes="png,jpg,jpeg,svg"
                   />
-                  <div className="mb-2"></div>
+                  <div className="mb-2 lg:hidden"></div>
                   <RangeInput
                     label="Image Size"
                     id="qr-imageSize"
+                    style={{flex: "1"}}
                     min={1}
                     max={100}
                     step={1}
@@ -200,7 +218,7 @@ export default function Home() {
                     id="qr-errorCorrectionLevel"
                     options={[
                       { value: "L", label: "Low" },
-                      { value: "M", label: "Medium" },
+                      { value: "M", label: "Medium", default: true },
                       { value: "Q", label: "Quartile" },
                       { value: "H", label: "High" },
                     ]}
