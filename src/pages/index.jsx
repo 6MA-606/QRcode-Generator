@@ -119,7 +119,7 @@ export default function Home() {
         <div className="my-1 text-4xl font-semibold transition-colors title isolate text-neutral-800 dark:text-neutral-50">
           QR-Code Generator
         </div>
-        <div className="mb-6 transition-colors description isolate text-neutral-600 dark:text-neutral-400">
+        <div className="mb-6 transition-colors description isolate text-neutral-600 dark:text-neutral-400 whitespace-nowrap">
           Version {version} By&nbsp;
           <a
             className="no-underline hover:underline"
