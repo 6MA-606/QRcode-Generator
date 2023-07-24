@@ -14,7 +14,7 @@ import QRCodeComponent from "@/components/QRCodeComponent";
 import { Collapsible } from "@/components/util/Collapsible";
 
 export default function Home() {
-  const version = "2.1.0";
+  const version = "2.1.1";
   const [isDarkmode, setIsDarkmode] = useState(false);
   const [text, setText] = useState("");
   const [color, setColor] = useState("#000000");
@@ -216,9 +216,10 @@ export default function Home() {
                   <OptionInput
                     label="Error Correction Level"
                     id="qr-errorCorrectionLevel"
+                    defaultValue={"M"}
                     options={[
                       { value: "L", label: "Low" },
-                      { value: "M", label: "Medium", default: true },
+                      { value: "M", label: "Medium" },
                       { value: "Q", label: "Quartile" },
                       { value: "H", label: "High" },
                     ]}

@@ -186,7 +186,7 @@ export const RangeInput = (props) => {
 };
 
 export const OptionInput = (props) => {
-  const { label, id, options, onChange } = props;
+  const { label, id, options, onChange, defaultValue } = props;
 
   return (
     <div id={id + "Block"} className="flex flex-col mx-0 my-1">
@@ -197,9 +197,10 @@ export const OptionInput = (props) => {
         className="w-auto px-2 py-1 text-base transition-colors bg-white border border-gray-300 rounded colorInput-text isolate dark:bg-neutral-600 dark:text-neutral-200 dark:border-neutral-500"
         onChange={onChange}
         id={id + "Input"}
+        defaultValue={defaultValue}
       >
         {options.map((option) => (
-          <option key={option.label} value={option.value} selected={option.default}>
+          <option key={option.label} value={option.value}>
             {option.label}
           </option>
         ))}
